@@ -16,6 +16,9 @@ jobs:
 
       - name: Install npm dependencies
         run: npm install
+      
+      - name: Echo rsync
+        run: rsync --version
 
       - name: SSH Deploy
         uses: easingthemes/ssh-deploy@main
