@@ -6,8 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v3
+      # - name: Clone repository
+      #   uses: actions/checkout@v3
       
       # - name: SSH
       #   uses: webfactory/ssh-agent@v0.7.0
@@ -24,14 +24,17 @@ jobs:
       
       - name: Echo rsync
         run: rsync --version
+      
+      - name: Private Key
+        run: cat ~/.ssh/id_rsa
 
-      - name: SSH Deploy
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
-          ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "dist/"
-          TARGET: ${{ secrets.WORK_DIR }}
-          # EXCLUDE: "/dist/, /node_modules/"
+      # - name: SSH Deploy
+      #   uses: easingthemes/ssh-deploy@main
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     REMOTE_HOST: ${{ secrets.SSH_HOST }}
+      #     REMOTE_USER: ${{ secrets.SSH_USER }}
+      #     # ARGS: "-rlgoDzvc -i --delete"
+      #     SOURCE: "dist/"
+      #     TARGET: ${{ secrets.WORK_DIR }}
+      #     # EXCLUDE: "/dist/, /node_modules/"
