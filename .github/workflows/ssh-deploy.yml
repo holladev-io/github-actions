@@ -9,10 +9,10 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
       
-      - name: SSH
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # - name: SSH
+      #   uses: webfactory/ssh-agent@v0.7.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # - name: Install Node.js
       #   uses: actions/setup-node@v3
@@ -22,16 +22,16 @@ jobs:
       # - name: Install npm dependencies
       #   run: npm install
       
-      # - name: Echo rsync
-      #   run: rsync --version
+      - name: Echo rsync
+        run: rsync --version
 
-      # - name: SSH Deploy
-      #   uses: easingthemes/ssh-deploy@main
-      #   env:
-      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     REMOTE_HOST: ${{ secrets.SSH_HOST }}
-      #     REMOTE_USER: ${{ secrets.SSH_USER }}
-      #     ARGS: "-rlgoDzvc -i --delete"
-      #     SOURCE: "dist/"
-      #     TARGET: ${{ secrets.WORK_DIR }}
-      #     # EXCLUDE: "/dist/, /node_modules/"
+      - name: SSH Deploy
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "dist/"
+          TARGET: ${{ secrets.WORK_DIR }}
+          # EXCLUDE: "/dist/, /node_modules/"
