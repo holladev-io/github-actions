@@ -30,14 +30,14 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       
-      - name: Echo rsync
-        run: rsync --version
+      - name: Rsync Version & Node Version & NPM Version
+        run: |
+          rsync --version
+          node -v
+          npm -v
       
       - name: Private Key
         run: cat ~/.ssh/id_rsa
-      
-      - name: Public Key
-        run: cat ~/.ssh/id_rsa.pub
 
       # - name: SSH Deploy
       #   uses: easingthemes/ssh-deploy@main
