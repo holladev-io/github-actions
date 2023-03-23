@@ -6,18 +6,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Clone repository
+      - name: Clone Repository
         uses: actions/checkout@v3
 
-      - name: Write SSH Private Key
-        # check this thread to understand why its needed:
-        # https://stackoverflow.com/a/70447517
+      - name: Install SSH Private Key # https://stackoverflow.com/a/70447517
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
 
-      - name: Rsync Deployments
+      - name: Deploy via Rsync
         uses: burnett01/rsync-deployments@5.2.1
         with:
           switches: -avzr --delete
@@ -27,10 +25,11 @@ jobs:
           remote_user: ${{ secrets.SSH_USER }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Remove Private Key
+        run: rm -rf ~/.ssh
 
 
 
-          
       # - name: Rsync Version & Node Version & NPM Version
       #   run: |
       #     rsync --version
