@@ -39,17 +39,17 @@ jobs:
       - name: Private Key
         run: cat ~/.ssh/id_rsa
 
-      - name: Rsync Deployments
-        uses: burnett01/rsync-deployments@5.2.1
-        with:
-          switches: -avzr --delete
-          path: dist/
-          remote_path: /var/www/test.scalatrades.com/html
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # - name: Rsync Deployments
+      #   uses: burnett01/rsync-deployments@5.2.1
+      #   with:
+      #     switches: -avzr --delete
+      #     path: dist/
+      #     remote_path: ${{ secrets.WORK_DIR }} #/var/www/test.scalatrades.com/html/
+      #     remote_host: ${{ secrets.SSH_HOST }}
+      #     remote_user: ${{ secrets.SSH_USER }}
+      #     remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # - name: SSH Deploy
+      # - name: SSH Deployments
       #   uses: easingthemes/ssh-deploy@main
       #   env:
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -59,3 +59,21 @@ jobs:
       #     SOURCE: "dist/"
       #     TARGET: ${{ secrets.WORK_DIR }}
       #     # EXCLUDE: "/dist/, /node_modules/"
+
+      - name: Deploy to Staging server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          ARGS: "-rlgoDzvc -i"
+          SOURCE: "dist/"          
+          TARGET: ${{ secrets.WORK_DIR }}
+          # EXCLUDE: "/dist/, /node_modules/"
+          SCRIPT_BEFORE: |
+            whoami
+            ls -al
+          SCRIPT_AFTER: |
+            whoami
+            ls -al
+            echo $RSYNC_STDOUT
