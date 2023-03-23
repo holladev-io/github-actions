@@ -1,4 +1,4 @@
-name: Node CI
+name: Deploy to VPS
 
 on: [push]
 
@@ -6,8 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # - name: Clone repository
-      #   uses: actions/checkout@v3
+      - name: Clone repository
+        uses: actions/checkout@v3
       
       # - name: SSH
       #   uses: webfactory/ssh-agent@v0.7.0
