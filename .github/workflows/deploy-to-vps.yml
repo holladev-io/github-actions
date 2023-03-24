@@ -22,7 +22,7 @@ jobs:
           path: dist/
           remote_path: /var/www/test.scalatrades.com/html/ #/var/www/test.scalatrades.com/html/
           remote_host: test.scalatrades.com
-          remote_user: devops
+          remote_user: dima
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Remove Private Key
