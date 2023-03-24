@@ -12,18 +12,18 @@ jobs:
       - name: Install SSH Private Key # https://stackoverflow.com/a/70447517
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H test.scalatrades.com > ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_PRIVATE_KEY_LOCAL }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
 
       - name: Deploy via Rsync
         uses: burnett01/rsync-deployments@5.2.1
         with:
           switches: -avzr --delete
           path: dist/
-          remote_path: /var/www/test.scalatrades.com/html/ #/var/www/<host_name>/html/
-          remote_host: test.scalatrades.com
-          remote_user: dima
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote_path: ${{ secrets.WORK_DIR }} #/var/www/<host_name>/html/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY_LOCAL }}
 
       - name: Remove Private Key
         run: rm -rf ~/.ssh
